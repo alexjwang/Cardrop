@@ -8,8 +8,8 @@ const app = express();
 const port = 8000;
 
 const client = new smartcar.AuthClient({
-  clientId: 'feea9f20-4c18-438e-97b1-62115a3800a9',
-  clientSecret: '23a64300-9e85-43eb-b8ac-89907e7a6cc4',
+  clientId: 'yourClientId',
+  clientSecret: 'yourClientSecret',
   redirectUri: 'http://localhost:8000/callback',
   development: true,
 });
