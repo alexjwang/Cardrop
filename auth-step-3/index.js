@@ -20,4 +20,8 @@ app.get('/', function(req, res) {
   res.redirect(link);
 });
 
+app.get('/callback', function(req, res) {
+  const code = req.query.code;
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

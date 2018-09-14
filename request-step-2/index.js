@@ -36,23 +36,6 @@ app.get('/vehicle', function(req, res) {
     .then(function(data) {
       // the list of vehicle ids
       return data.vehicles;
-    })
-    .then(function(vehicleIds) {
-      // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);
-
-      return vehicle.info();
-    })
-    .then(function(info) {
-      console.log(info);
-      // {
-      //   "id": "36ab27d0-fd9d-4455-823a-ce30af709ffc",
-      //   "make": "TESLA",
-      //   "model": "Model S",
-      //   "year": 2014
-      // }
-
-      res.json(info);
     });
 });
 
