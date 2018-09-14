@@ -1,0 +1,24 @@
+{
+  "name": "getting-started-node-sdk",
+  "version": "1.0.0",
+  "description": "Getting Started with Node SDK",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smartcar/getting-started-node-sdk.git"
+  },
+  "keywords": [
+    "smartcar"
+  ],
+  "author": "Smartcar <hello@smartcar.com> (https://smartcar.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smartcar/getting-started-node-sdk/issues"
+  },
+  "homepage": "https://github.com/smartcar/getting-started-node-sdk#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "opn": "^5.3.0",
+    "smartcar": "^4.1.0"
+  }
+}
