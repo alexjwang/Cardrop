@@ -1,7 +1,7 @@
 {
-  "name": "auth-step-0",
+  "name": "request-step-2",
   "version": "1.0.0",
-  "description": "Authorization Step 0",
+  "description": "Request Step 2",
   "main": "index.js",
   "author": "Smartcar <hello@smartcar.com> (https://smartcar.com)",
   "license": "MIT",
