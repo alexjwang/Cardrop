@@ -27,6 +27,10 @@ app.get('/callback', function(req, res) {
     .then(function(_access) {
       // in a production app you'll want to store this in some kind of persistent storage
       access = _access;
+
+      // once you have the access token, redirect to the /vehicle endpoint which we will
+      // implement in the next steps
+      return res.redirect('/vehicle');
     })
 });
 ```
@@ -61,6 +65,8 @@ app.get('/vehicle', function(req, res) {
 Before you make a request to a vehicle, let's instantiate a `Vehicle` object.
 
 ```javascript
+// ./index.js
+
 app.get('/vehicle', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
@@ -81,6 +87,8 @@ Now that you have your user's vehicle instantiated, you're ready to make your fi
 
 Let's make a request to Smartcar to get some information about the vehicle.
 ```javascript
+// ./index.js
+
 app.get('/vehicle', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
@@ -110,17 +118,16 @@ app.get('/vehicle', function(req, res) {
 ### Try It Out
 Now that we've written the code to make our first request, let's actually make a request and see what we get back!
 
-Ensure you have restarted your server. Go to `http://localhost:8080/callback` and reauthenticate your vehicle. Then run the following curl command from your terminal -
-```bash
-$
-```
+Ensure you have restarted your server. Go to `http://localhost:8000/callback` and reauthenticate your vehicle. Once authenticated, you will see the vehicle information on your browser!
+
+[Check out the GitHub branch for this step.]()
 
 ***
 
 ## Next Steps
 You've successfully made your first request to Smartcar!
 
-For more information about what our API can do, take a look at our API Reference.
+[For more information about what our API can do, take a look at our API Reference.]()
 
 (Introduce Guides Section)
 

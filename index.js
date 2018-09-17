@@ -7,10 +7,10 @@ const app = express();
 const port = 8000;
 
 const client = new smartcar.AuthClient({
-  clientId: 'yourClientId',
-  clientSecret: 'yourClientSecret',
+  clientId: 'feea9f20-4c18-438e-97b1-62115a3800a9',
+  clientSecret: 'e4b48627-3b7e-49ac-a539-6bf1cd20a1dc',
   redirectUri: 'http://localhost:8000/callback',
-  development: true,
+  testMode: true,
 });
 
 // global variable to save our accessToken
@@ -28,6 +28,8 @@ app.get('/callback', function(req, res) {
     .then(function(_access) {
       // in a production app you'll want to store this in some kind of persistent storage
       access = _access;
+
+      return res.redirect('/vehicle');
     });
 });
 

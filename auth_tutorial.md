@@ -34,7 +34,7 @@ const client = new smartcar.AuthClient({
   testMode: true,
 });
 
-app.get('/login', function(req, res) {
+app.get('/', function(req, res) {
   const link = client.getAuthUrl();
   res.redirect(link);
 });
@@ -56,7 +56,7 @@ If all goes well, you can move on to the next step!
 ### Try It Out
 Let's try authenticating a vehicle in `test` mode. Remember, in `test` mode, any login credentials for all brands are valid!
 
-Restart your server, open up your browser and go to `http://localhost:8080/login`.
+Restart your server, open up your browser and go to `http://localhost:8000/login`.
 
 Notice once you log in, Smartcar showcases all the permissions a developer is asking for. A user has to consent to all the permissions!
 

@@ -36,7 +36,7 @@ Let's create a server using Express that listens on the port 8080.
 const express = require('express');
 
 const app = express();
-const port = 8080;
+const port = 8000;
 
 app.listen(port, () => console.log(`Listening on port ${port}.`));
 ```
@@ -46,7 +46,7 @@ Make sure the server initializes correctly.
 ```bash
 $ node index.js
 
-Listening on port 8080.
+Listening on port 8000.
 ```
 
 [Check out the GitHub branch for this step.]()
