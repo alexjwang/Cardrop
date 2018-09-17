@@ -9,35 +9,41 @@ To successfully make your first request, there are four steps -
 
 The rest of this section goes through each of steps in more detail.
 
+***
+
 ## Step 1: Obtain an Access Token
 In the previous section, we listened for the authorization `code`. Let's exchange that for the `accessToken` required to make your first request.
 
-_COMMENT_: I don't like scattering random guides
-
-[Learn more about why we exchange an authorization code for an access token.]()
-
 ```javascript
+// ./index.js
+
 // global variable to save our accessToken
 let access;
 
 app.get('/callback', function(req, res) {
   const code = req.query.code;
 
-  return client.exchangeCode(req.query.code)
+  return client.exchangeCode(code)
     .then(function(_access) {
       // in a production app you'll want to store this in some kind of persistent storage
       access = _access;
     })
 });
 ```
+[Check out the GitHub branch for this step.]()
+
+### Additional Reading
+[Learn more about why we exchange an authorization code for an access token.]()
 
 ## Step 2: Get Vehicle Ids
 To send a request to a vehicle, you will first need its vehicle id.
 
 A user's account may include more than one vehicle, all of which are displayed in the authorization dialog. The user may choose to grant your application access to any number of vehicles from the set.
 
-To get the list of vehicle ids a user has given you permission to -
+To get the list of vehicle ids a user has granted you permission to -
 ```javascript
+// ./index.js
+
 app.get('/vehicle', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
@@ -47,8 +53,10 @@ app.get('/vehicle', function(req, res) {
 });
 ```
 
+[Check out the GitHub branch for this step.]()
+
 ## Step 3: Create a Vehicle
-`Vehicle`s are Smartcar objects that represent an actual vehicle.
+`Vehicle`s are Smartcar objects that represent an actual vehicle, providing an easy way to make requests to a specific vehicle.
 
 Before you make a request to a vehicle, let's instantiate a `Vehicle` object.
 
@@ -65,6 +73,8 @@ app.get('/vehicle', function(req, res) {
     });
 });
 ```
+
+[Check out the GitHub branch for this step.]()
 
 ## Step 4: Make a Request to Smartcar API
 Now that you have your user's vehicle instantiated, you're ready to make your first request!
@@ -97,7 +107,13 @@ app.get('/vehicle', function(req, res) {
 });
 ```
 
-_COMMENT_: We need to also add `bash` commands to inform a user when they can run their code and what they should expect.
+### Try It Out
+Now that we've written the code to make our first request, let's actually make a request and see what we get back!
+
+Ensure you have restarted your server. Go to `http://localhost:8080/callback` and reauthenticate your vehicle. Then run the following curl command from your terminal -
+```bash
+$
+```
 
 ***
 

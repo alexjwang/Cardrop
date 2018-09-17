@@ -4,7 +4,7 @@ Smartcar is a connected car API that allows mobile and web applications to commu
 
 We will create a simple web application that displays your car information. (insert picture)
 
-At the end of this guide, you will have learned how Smartcar works, how to get your API keys, learned about our authentication process and made your first request to Smartcar using your preferred SDK.  
+At the end of this guide, you will have learned how Smartcar works, how to get your API keys, learned about our authentication process and made your first request to Smartcar using your preferred SDK.
 
 ## How Does Smartcar Work
 
@@ -45,4 +45,12 @@ Make sure the server initializes correctly.
 
 ```bash
 $ node index.js
+
+Listening on port 8080.
 ```
+
+[Check out the GitHub branch for this step.]()
+
+***
+
+Now that we've set our server up, we will learn more about Smartcar's authentication flow in the next section.

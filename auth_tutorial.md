@@ -1,8 +1,8 @@
 # Authorization Flow with Node SDK
 
-Now that you know what Smartcar is and have obtained your API keys, let's get started!
+To make requests to a vehicle from a web or mobile application, your end user must connect their vehicle using Smartcar's authentication flow. This flow follows the [OAuth](https://oauth.net/2/) spec and will return an authorization `code` which can be used to obtain an access `token` from Smartcar.
 
-To make requests to a vehicle from a web or mobile application, your end user must connect their vehicle using Smartcar's authentication flow. This flow follows the [OAuth](https://oauth.net/2/) spec and will return an authorization `code` which can be used to obtain an access `token` from Smartcar. If you want to learn more about our authorization process, you can read our [Authorization](https://smartcar.com/docs?language=Python#authentication) guide.
+[Learn more about our authorization process.](https://smartcar.com/docs?language=Python#authentication)
 
 To obtain the authorization `code`, there are three steps -
 1. [Redirect to Smartcar]() - Your application redirects a vehicle owner to the Smartcar authentication dialog.
@@ -20,10 +20,13 @@ $ npm install --save smartcar
 ## Step 1: Redirect to Smartcar
 A user has to grant your application access to their vehicles, therefore your application has to redirect them to Smartcar's authentication dialog.
 
-To do this, you will first need to set up your Smartcar OAuth client and input the url to redirect your user after the Smartcar Authentication flow.
+To do this, you will first need to set up your Smartcar auth client and retrieve the url to redirect your user after the Smartcar Authentication flow.
 
 ```javascript
+// ./index.js
+
 const smartcar = require('smartcar');
+
 const client = new smartcar.AuthClient({
   cliendId: 'yourClientId',
   clientSecret: 'yourClientSecret',
@@ -39,30 +42,41 @@ app.get('/login', function(req, res) {
 
 The [`testMode` parameter](https://www.smartcar.com) is set to `true` to allow you to send a request to simulated accounts and vehicles on the Smartcar platform.
 
+[Check out the GitHub branch for this step.]()
+
+### Additional Reading:
+[Learn more about testing on Smartcar.]()
+
 ## Step 2: Smartcar Prompts for Consent
 
-_COMMENT_: Are there any code that the developer can run at this point to experience the Smartcar Auth Flow? I think we need to think about this part again. I can see how a developer will get lost because they do not see any of the Auth Flow right now.
-
-In this step, Smartcar displays a consent window that prompts the vehicle owner to log in with their connected car credentials in live mode or test mode if the authorization flow is running in our test mode. The owner then decides if they wish to grant your application access to their vehicle.
+In this step, Smartcar displays a consent window that prompts the vehicle owner to log in with their connected car credentials. The owner will then decide if they wish to grant your application access to their vehicle.
 
 If all goes well, you can move on to the next step!
 
-_COMMENT_: We should not just have linkedin links to articles. Instead they should be linked naturally in the guide.
-[Learn what a connected car credential is.](https://smartcar.com)
+### Try It Out
+Let's try authenticating a vehicle in `test` mode. Remember, in `test` mode, any login credentials for all brands are valid!
 
-[Learn what test mode is.](https://smartcar.com/docs?language=cURL#testing)
+Restart your server, open up your browser and go to `http://localhost:8080/login`.
+
+Notice once you log in, Smartcar showcases all the permissions a developer is asking for. A user has to consent to all the permissions!
+
+### Additional Reading
+[Learn what a connected car credential is.](https://smartcar.com)
 
 ## Step 3: Handle Smartcar Response
 If the vehicle owner has granted your application permission, Smartcar responds with an authorization `code` sent to the `redirect_uri` you have provided.
 
 Your server can be set up as follows to handle the `code`.
 ```javascript
+// ./index.js
+
 app.get('/callback', function(req, res) {
   const code = req.query.code;
-  console.log(code);
-  // uuid
 });
 ```
+
+[Check out the GitHub branch for this step.]()
+
 ***
 
 In the next section, we will cover how to exchange the authorization `code` for an `accessToken` and make your first request to Smartcar API with it!
