@@ -28,8 +28,11 @@ app.get('/callback', function(req, res) {
     .then(function(_access) {
       // in a production app you'll want to store this in some kind of persistent storage
       access = _access;
+      console.log(access);
 
       return res.redirect('/vehicle');
+    }).catch(function(e) {
+      console.log(e.name);
     });
 });
 
