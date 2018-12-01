@@ -45,10 +45,10 @@ app.get('/exchange', function(req, res) {
     });
 });
 
-let id = "12f815bb-c679-45dd-9e2a-b212725c3c65";
+let id = "39855a19-7146-4ef0-8f31-07fd771310c6"; //hard-coded for now, should be passed a variable by wix website
 let index=-1;
 
-app.get('/vehicle', function(req, res) {
+app.get('/vehicle', function(req, res) { //must call in order to obtain index
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
       // the list of vehicle ids
@@ -64,11 +64,13 @@ app.get('/vehicle', function(req, res) {
        return Promise.all(arrInfo);
       })
       .then(function(infos) {
+
         for(let i=0; i<infos.length; i++) {
           if(infos[i].id == id) {
             index=i;
           }
         } 
+        
         console.log(infos);
         res.json(infos)
       });
