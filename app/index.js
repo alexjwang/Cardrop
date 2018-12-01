@@ -53,6 +53,7 @@ app.get('/vehicle', function(req, res) {
        return Promise.all(arrInfo);
       })
       .then(function(infos) {
+        console.log(infos);
         res.json(infos)
       });
 });
@@ -66,24 +67,17 @@ app.get('/location', function(req, res) {
     })
     .then(function(vehicleIds) {
       // instantiate the first vehicle in the vehicle id list
-      let arrLocations = new Array(vehicleIds.length);
+      let arrLocations = [];
       for(let i=0; i<vehicleIds.length; i++){
         let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);
-        arrLocations[i] = vehicle.location();
+        
+        arrLocations.push(vehicle.location());
       }
-
-      return arrLocations;
+      return Promise.all(arrLocations);
     })
-    .then(function(location) {
-      console.log(location);
-      // {
-      //   "id": "36ab27d0-fd9d-4455-823a-ce30af709ffc",
-      //   "make": "TESLA",
-      //   "model": "Model S",
-      //   "year": 2014
-      // }
-
-      res.json(location);
+    .then(function(locations) {
+      console.log(locations);
+      res.json(locations);
     });
 });
 
