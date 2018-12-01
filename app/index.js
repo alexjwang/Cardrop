@@ -19,20 +19,10 @@ const client = new smartcar.AuthClient({
 // global variable to save our accessToken
 let access;
 
-app.get('/', function(req, res, next) {
-  const authUrl = client.getAuthUrl({forcePrompt: true});
-  res.send(`
-    <h1>Hello, World!</h1>
-    <a href=${authUrl}>
-      <button>Connect Car</button>
-    </a>
-  `);
+app.get('/login', function(req, res) {
+  const link = client.getAuthUrl();
+  res.redirect(link);
 });
-
-// app.get('/login', function(req, res) {
-//   const link = client.getAuthUrl();
-//   res.redirect(link);
-// });
 
 app.get('/exchange', function(req, res) {
   const code = req.query.code;
@@ -111,41 +101,6 @@ app.get('/odometer', function(req, res) {
 });
 
 
-app.get('/lock', function(req, res) {
-  return smartcar.getVehicleIds(access.accessToken)
-    .then(function(data) {
-      // the list of vehicle ids
-      return data.vehicles;
-    })
-    .then(function(vehicleIds) {
-      // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
-      return vehicle.lock();
-    })
-    .then(function(response) {
-      console.log(response);
-      res.json(response);
-    });
-});
-
-app.get('/unlock', function(req, res) {
-  return smartcar.getVehicleIds(access.accessToken)
-    .then(function(data) {
-      // the list of vehicle ids
-      return data.vehicles;
-    })
-    .then(function(vehicleIds) {
-      // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
-      return vehicle.unlock();
-    })
-    .then(function(response) {
-      console.log(response);
-      res.json(response);
-    });
-});
-
-
 // app.get('\disconnect', function(req,res) {
 //   return smartcar.getVehicleIds(access.accessToken)
 //     .then(function(data) {
@@ -160,10 +115,5 @@ app.get('/unlock', function(req, res) {
 //       });
 //     }) 
 // });
-
-
-
-
-
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
