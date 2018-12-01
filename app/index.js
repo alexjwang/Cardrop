@@ -46,6 +46,7 @@ app.get('/exchange', function(req, res) {
 });
 
 let arrInfo = [];
+
 let id = "12f815bb-c679-45dd-9e2a-b212725c3c65";
 let index=-1;
 
