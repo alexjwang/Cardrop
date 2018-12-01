@@ -13,7 +13,7 @@ const client = new smartcar.AuthClient({
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: process.env.REDIRECT_URI,
   scope: ['read_vehicle_info','read_location','read_odometer','control_security', 'control_security:unlock', 'control_security:lock'], 
-  testMode: true,
+  //testMode: true,
 });
 
 // global variable to save our accessToken
@@ -188,10 +188,5 @@ app.get('/'+id+'/unlock', function(req, res) {
 //       });
 //     }) 
 // });
-
-
-
-
-
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
