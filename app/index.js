@@ -45,6 +45,10 @@ app.get('/exchange', function(req, res) {
     });
 });
 
+let arrInfo = [];
+let id = "12f815bb-c679-45dd-9e2a-b212725c3c65";
+let index=-1;
+
 app.get('/vehicle', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
@@ -53,7 +57,7 @@ app.get('/vehicle', function(req, res) {
     })
     .then(function(vehicleIds) {
       // instantiate the first vehicle in the vehicle id list
-      let arrInfo = [];
+      
       for(let i=0; i<vehicleIds.length; i++){
         let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);        
         arrInfo.push(vehicle.info());
@@ -61,6 +65,11 @@ app.get('/vehicle', function(req, res) {
        return Promise.all(arrInfo);
       })
       .then(function(infos) {
+        for(let i=0; i<infos.length; i++) {
+          if(infos[i].id == id) {
+            index=i;
+          }
+        } 
         console.log(infos);
         res.json(infos)
       });
@@ -110,6 +119,42 @@ app.get('/odometer', function(req, res) {
     });
 });
 
+   
+
+app.get('/'+id+'/lock', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+  .then(function(data) {
+    // the list of vehicle ids
+    return data.vehicles;
+  })
+  .then(function(vehicleIds) {
+    // instantiate the index'th vehicle in the vehicle id list
+    
+    const vehicle = new smartcar.Vehicle(vehicleIds[index], access.accessToken);       
+    return vehicle.lock();
+  })
+  .then(function(response) {
+    console.log(response);
+    res.json(response);
+  });
+});
+
+app.get('/'+id+'/unlock', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the index'th vehicle in the vehicle id list
+      const vehicle = new smartcar.Vehicle(vehicleIds[index], access.accessToken);       
+      return vehicle.unlock();
+    })
+    .then(function(response) {
+      console.log(response);
+      res.json(response);
+    });
+});
 
 // app.get('\disconnect', function(req,res) {
 //   return smartcar.getVehicleIds(access.accessToken)
