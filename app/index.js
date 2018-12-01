@@ -11,8 +11,8 @@ const port = 8000;
 const client = new smartcar.AuthClient({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: process.env.REDIRECT_URI,
-  scope: ['read_vehicle_info'],
+  redirectUri: process.env.REDIRECT_URL,
+  scope: ['read_vehicle_info','read_location'], 
   testMode: true,
 });
 
@@ -36,6 +36,7 @@ app.get('/exchange', function(req, res) {
     });
 });
 
+
 app.get('/vehicle', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
@@ -44,12 +45,38 @@ app.get('/vehicle', function(req, res) {
     })
     .then(function(vehicleIds) {
       // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);
+      let arrInfo = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);
+        
+        arrInfo.push(vehicle.info());
+      }
+       return Promise.all(arrInfo);
+      })
+      .then(function(infos) {
+        res.json(infos)
+      })
+    });
 
-      return vehicle.info();
+
+app.get('/location', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
     })
-    .then(function(info) {
-      console.log(info);
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      let arrLocations = new Array(vehicleIds.length);
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);
+        arrLocations[i] = vehicle.location();
+      }
+
+      return arrLocations;
+    })
+    .then(function(location) {
+      console.log(location);
       // {
       //   "id": "36ab27d0-fd9d-4455-823a-ce30af709ffc",
       //   "make": "TESLA",
@@ -57,7 +84,7 @@ app.get('/vehicle', function(req, res) {
       //   "year": 2014
       // }
 
-      res.json(info);
+      res.json(location);
     });
 });
 
