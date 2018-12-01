@@ -36,7 +36,6 @@ app.get('/exchange', function(req, res) {
     });
 });
 
-
 app.get('/vehicle', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
@@ -55,8 +54,8 @@ app.get('/vehicle', function(req, res) {
       })
       .then(function(infos) {
         res.json(infos)
-      })
-    });
+      });
+});
 
 
 app.get('/location', function(req, res) {
