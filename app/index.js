@@ -1,5 +1,5 @@
 'use strict';
-//hi
+
 const cors = require('cors');
 const express = require('express');
 const smartcar = require('smartcar');
