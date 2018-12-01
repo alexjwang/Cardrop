@@ -12,21 +12,31 @@ const client = new smartcar.AuthClient({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: process.env.REDIRECT_URI,
-  scope: ['read_vehicle_info'],
+  scope: ['read_vehicle_info','read_location','read_odometer','control_security', 'control_security:unlock', 'control_security:lock'], 
   testMode: true,
 });
 
 // global variable to save our accessToken
 let access;
 
-app.get('/login', function(req, res) {
-  const link = client.getAuthUrl();
-  res.redirect(link);
+// 3. Create a page with a 'Connect Car' button.
+app.get('/', function(req, res, next) {
+  const authUrl = client.getAuthUrl({forcePrompt: true});
+  res.send(`
+    <h1>Hello, World!</h1>
+    <a href=${authUrl}>
+      <button>Connect Car</button>
+    </a>
+  `);
 });
+
+// app.get('/login', function(req, res) {
+//   const link = client.getAuthUrl();
+//   res.redirect(link);
+// });
 
 app.get('/exchange', function(req, res) {
   const code = req.query.code;
-
   return client.exchangeCode(code)
     .then(function(_access) {
       // in a production app you'll want to store this in some kind of persistent storage
@@ -44,21 +54,111 @@ app.get('/vehicle', function(req, res) {
     })
     .then(function(vehicleIds) {
       // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);
+      let arrInfo = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);        
+        arrInfo.push(vehicle.info());
+      }
+       return Promise.all(arrInfo);
+      })
+      .then(function(infos) {
+        console.log(infos);
+        res.json(infos)
+      });
+});
 
-      return vehicle.info();
+
+app.get('/location', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
     })
-    .then(function(info) {
-      console.log(info);
-      // {
-      //   "id": "36ab27d0-fd9d-4455-823a-ce30af709ffc",
-      //   "make": "TESLA",
-      //   "model": "Model S",
-      //   "year": 2014
-      // }
-
-      res.json(info);
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      let arrLocations = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken); 
+        arrLocations.push(vehicle.location());
+      }
+      return Promise.all(arrLocations);
+    })
+    .then(function(locations) {
+      console.log(locations);
+      res.json(locations);
     });
 });
+
+
+app.get('/odometer', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      let arrOdometer = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);       
+        arrOdometer.push(vehicle.odometer());
+      }
+      return Promise.all(arrOdometer);
+    })
+    .then(function(odometer) {
+      console.log(odometer);
+      res.json(odometer);
+    });
+});
+
+app.get('/lock', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
+      return vehicle.lock();
+    })
+    .then(function(response) {
+      console.log(response);
+      res.json(response);
+    });
+});
+
+app.get('/unlock', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
+      return vehicle.unlock();
+    })
+    .then(function(response) {
+      console.log(response);
+      res.json(response);
+    });
+});
+
+
+// app.get('\disconnect', function(req,res) {
+//   return smartcar.getVehicleIds(access.accessToken)
+//     .then(function(data) {
+//       // the list of vehicle ids
+//       return data.vehicles;
+//     })
+//     .then(function(vehicleIds) {
+//       // instantiate the first vehicle in the vehicle id list
+//       const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
+//       vehicle.disconnect().then(function(response) {
+//         console.log(response);
+//       });
+//     }) 
+// });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
