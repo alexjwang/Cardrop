@@ -12,7 +12,7 @@ const client = new smartcar.AuthClient({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: process.env.REDIRECT_URI,
-  scope: ['read_vehicle_info','read_location'], 
+  scope: ['read_vehicle_info','read_location','read_odometer'], 
   testMode: true,
 });
 
@@ -78,6 +78,29 @@ app.get('/location', function(req, res) {
     .then(function(locations) {
       console.log(locations);
       res.json(locations);
+    });
+});
+
+
+app.get('/odometer', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      let arrOdometer = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);
+        
+        arrOdometer.push(vehicle.odometer());
+      }
+      return Promise.all(arrOdometer);
+    })
+    .then(function(odometer) {
+      console.log(odometer);
+      res.json(odometer);
     });
 });
 
