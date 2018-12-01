@@ -19,10 +19,6 @@ const client = new smartcar.AuthClient({
 // global variable to save our accessToken
 let access;
 
-<<<<<<< HEAD
-// 3. Create a page with a 'Connect Car' button.
-=======
->>>>>>> d53a6002cabee9b01772603c751157d2483d818f
 app.get('/', function(req, res, next) {
   const authUrl = client.getAuthUrl({forcePrompt: true});
   res.send(`
@@ -31,20 +27,12 @@ app.get('/', function(req, res, next) {
       <button>Connect Car</button>
     </a>
   `);
-<<<<<<< HEAD
-=======
 });
 
 app.get('/login', function(req, res) {
   const link = client.getAuthUrl();
   res.redirect(link);
->>>>>>> d53a6002cabee9b01772603c751157d2483d818f
 });
-
-// app.get('/login', function(req, res) {
-//   const link = client.getAuthUrl();
-//   res.redirect(link);
-// });
 
 app.get('/exchange', function(req, res) {
   const code = req.query.code;
@@ -132,26 +120,6 @@ app.get('/odometer', function(req, res) {
     });
 });
 
-<<<<<<< HEAD
-app.get('/lock', function(req, res) {
-  return smartcar.getVehicleIds(access.accessToken)
-    .then(function(data) {
-      // the list of vehicle ids
-      return data.vehicles;
-    })
-    .then(function(vehicleIds) {
-      // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
-      return vehicle.lock();
-    })
-    .then(function(response) {
-      console.log(response);
-      res.json(response);
-    });
-});
-
-app.get('/unlock', function(req, res) {
-=======
    
 
 app.get('/'+id+'/lock', function(req, res) {
@@ -173,20 +141,14 @@ app.get('/'+id+'/lock', function(req, res) {
 });
 
 app.get('/'+id+'/unlock', function(req, res) {
->>>>>>> d53a6002cabee9b01772603c751157d2483d818f
   return smartcar.getVehicleIds(access.accessToken)
     .then(function(data) {
       // the list of vehicle ids
       return data.vehicles;
     })
     .then(function(vehicleIds) {
-<<<<<<< HEAD
-      // instantiate the first vehicle in the vehicle id list
-      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
-=======
       // instantiate the index'th vehicle in the vehicle id list
       const vehicle = new smartcar.Vehicle(vehicleIds[index], access.accessToken);       
->>>>>>> d53a6002cabee9b01772603c751157d2483d818f
       return vehicle.unlock();
     })
     .then(function(response) {
@@ -195,10 +157,6 @@ app.get('/'+id+'/unlock', function(req, res) {
     });
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> d53a6002cabee9b01772603c751157d2483d818f
 // app.get('\disconnect', function(req,res) {
 //   return smartcar.getVehicleIds(access.accessToken)
 //     .then(function(data) {
@@ -214,13 +172,9 @@ app.get('/'+id+'/unlock', function(req, res) {
 //     }) 
 // });
 
-<<<<<<< HEAD
-app.listen(port, () => console.log(`Listening on port ${port}`));
-=======
 
 
 
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
->>>>>>> d53a6002cabee9b01772603c751157d2483d818f
