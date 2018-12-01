@@ -138,7 +138,6 @@ app.get('/'+id+'/location', function(req, res) {
   });
 });
    
-
 app.get('/'+id+'/lock', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
   .then(function(data) {
