@@ -19,6 +19,16 @@ const client = new smartcar.AuthClient({
 // global variable to save our accessToken
 let access;
 
+app.get('/', function(req, res, next) {
+  const authUrl = client.getAuthUrl({forcePrompt: true});
+  res.send(`
+    <h1>Hello, World!</h1>
+    <a href=${authUrl}>
+      <button>Connect Car</button>
+    </a>
+  `);
+});
+
 app.get('/login', function(req, res) {
   const link = client.getAuthUrl();
   res.redirect(link);
