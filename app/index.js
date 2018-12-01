@@ -13,7 +13,7 @@ const client = new smartcar.AuthClient({
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: process.env.REDIRECT_URI,
   scope: ['read_vehicle_info','read_location','read_odometer','control_security', 'control_security:unlock', 'control_security:lock'], 
-  testMode: true,
+  //testMode: true,
 });
 
 // global variable to save our accessToken
@@ -45,7 +45,7 @@ app.get('/exchange', function(req, res) {
     });
 });
 
-let id = "12f815bb-c679-45dd-9e2a-b212725c3c65";
+let id = "39855a19-7146-4ef0-8f31-07fd771310c6";
 let index=-1;
 
 app.get('/vehicle', function(req, res) {
