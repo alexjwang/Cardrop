@@ -111,6 +111,41 @@ app.get('/odometer', function(req, res) {
 });
 
 
+app.get('/lock', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
+      return vehicle.lock();
+    })
+    .then(function(response) {
+      console.log(response);
+      res.json(response);
+    });
+});
+
+app.get('/unlock', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
+      return vehicle.unlock();
+    })
+    .then(function(response) {
+      console.log(response);
+      res.json(response);
+    });
+});
+
+
 // app.get('\disconnect', function(req,res) {
 //   return smartcar.getVehicleIds(access.accessToken)
 //     .then(function(data) {
