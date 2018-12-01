@@ -12,7 +12,7 @@ const client = new smartcar.AuthClient({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: process.env.REDIRECT_URI,
-  scope: ['read_vehicle_info','read_location'], 
+  scope: ['read_vehicle_info','read_location','read_odometer','control_security', 'control_security:unlock', 'control_security:lock'], 
   testMode: true,
 });
 
@@ -26,7 +26,6 @@ app.get('/login', function(req, res) {
 
 app.get('/exchange', function(req, res) {
   const code = req.query.code;
-
   return client.exchangeCode(code)
     .then(function(_access) {
       // in a production app you'll want to store this in some kind of persistent storage
@@ -46,8 +45,7 @@ app.get('/vehicle', function(req, res) {
       // instantiate the first vehicle in the vehicle id list
       let arrInfo = [];
       for(let i=0; i<vehicleIds.length; i++){
-        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);
-        
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);        
         arrInfo.push(vehicle.info());
       }
        return Promise.all(arrInfo);
@@ -69,8 +67,7 @@ app.get('/location', function(req, res) {
       // instantiate the first vehicle in the vehicle id list
       let arrLocations = [];
       for(let i=0; i<vehicleIds.length; i++){
-        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);
-        
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken); 
         arrLocations.push(vehicle.location());
       }
       return Promise.all(arrLocations);
@@ -80,5 +77,43 @@ app.get('/location', function(req, res) {
       res.json(locations);
     });
 });
+
+
+app.get('/odometer', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      let arrOdometer = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);       
+        arrOdometer.push(vehicle.odometer());
+      }
+      return Promise.all(arrOdometer);
+    })
+    .then(function(odometer) {
+      console.log(odometer);
+      res.json(odometer);
+    });
+});
+
+
+// app.get('\disconnect', function(req,res) {
+//   return smartcar.getVehicleIds(access.accessToken)
+//     .then(function(data) {
+//       // the list of vehicle ids
+//       return data.vehicles;
+//     })
+//     .then(function(vehicleIds) {
+//       // instantiate the first vehicle in the vehicle id list
+//       const vehicle = new smartcar.Vehicle(vehicleIds[0], access.accessToken);       
+//       vehicle.disconnect().then(function(response) {
+//         console.log(response);
+//       });
+//     }) 
+// });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
