@@ -32,14 +32,11 @@ export function repeater1_itemReady($item, itemData, index) {
 	//activate
 	unlockButton.onClick(async () => {
 		let smartCarId = await itemData.car.smartCarId;
-		// await unlock(smartCarId).then( function(response) {
-		// 	let x = response;
-		// 	console.log(x);
-		// })
-		 await getLocation(smartCarId).then( function(response) {
-		 	let x = response;
-		 	console.log(x);
-		 })
+		await unlock(smartCarId).then( function(response) {
+			let x = response;
+			console.log(x);
+		})
+
     });
 
 	//deactivate
