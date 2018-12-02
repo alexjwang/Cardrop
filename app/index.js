@@ -146,7 +146,6 @@ app.get('/'+id+'/allInfo', function(req, res) {
   });
 });
    
-
 app.get('/'+id+'/lock', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
   .then(function(data) {
@@ -203,4 +202,8 @@ app.get('/'+id+'/unlock', function(req, res) {
 
 
 
+<<<<<<< HEAD
 app.listen(port, () => console.log(`Listening on port ${port}`));
+=======
+app.listen(port, () => console.log(`Listening on port ${port}`));
+>>>>>>> 4391df5397fb7a7fc0707f1f64d6be3f6975000d
