@@ -8,6 +8,7 @@ Unlike with today’s car rental services, Cardrop users would have the advantag
 1) Not travelling long distances to arrive at pick-up or drop-off centers. Instead, the cars are dispersed across the city/area in designated zones and hotspots where cars can be picked up and dropped off with ease. 
 2) Not waiting in line at pick-up centers and deal with counter services
 3) Purchasing, activating, unlocking, and locking their vehicle with the press of a button from the app.
+
 Rental car companies who use Cardrop would have the advantages of:
 1) Not needing to build centers to house the cars--the cars can be parked anywhere (as long as it’s parked legally), within the loosely set zones. This means the number of potential locations would vastly increase, eliminating the costs of building and maintaining huge sites for car storage.
 2) Not needing to hire as many employees (decreases costs).
