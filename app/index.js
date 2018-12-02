@@ -41,38 +41,39 @@ app.get('/exchange', function(req, res) {
       // in a production app you'll want to store this in some kind of persistent storage
       access = _access;
 
-      res.redirect('/'+id+'/allInfo');
+      res.redirect('/vehicle');
     });
 });
 
 let id = "39855a19-7146-4ef0-8f31-07fd771310c6";
 let index=-1;
 
-// app.get('/vehicle', function(req, res) {
-//   return smartcar.getVehicleIds(access.accessToken)
-//     .then(function(data) {
-//       // the list of vehicle ids
-//       return data.vehicles;
-//     })
-//     .then(function(vehicleIds) {
-//       // instantiate the first vehicle in the vehicle id list
-//       let arrInfo = [];
-//       for(let i=0; i<vehicleIds.length; i++){
-//         let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);        
-//         arrInfo.push(vehicle.info());
-//       }
-//        return Promise.all(arrInfo);
-//       })
-//       .then(function(infos) {
-//         for(let i=0; i<infos.length; i++) {
-//           if(infos[i].id == id) {
-//             index=i;
-//           }
-//         } 
-//         console.log(infos);
-//         res.json(infos)
-//       });
-// });
+app.get('/vehicle', function(req, res) {
+  return smartcar.getVehicleIds(access.accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the first vehicle in the vehicle id list
+      let arrInfo = [];
+      for(let i=0; i<vehicleIds.length; i++){
+        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);        
+        arrInfo.push(vehicle.info());
+      }
+       return Promise.all(arrInfo);
+      })
+      .then(function(infos) {
+        for(let i=0; i<infos.length; i++) {
+          if(infos[i].id == id) {
+            index=i;
+          }
+        } 
+        console.log(infos);
+        //res.json(infos);
+        res.redirect('/'+id+'/location');
+      });
+});
 
 
 // app.get('/location', function(req, res) {
@@ -118,29 +119,19 @@ let index=-1;
 //     });
 // });
 
-app.get('/'+id+'/allInfo', function(req, res) {
+app.get('/'+id+'/location', function(req, res) {
   return smartcar.getVehicleIds(access.accessToken)
   .then(function(data) {
     // the list of vehicle ids
     return data.vehicles;
   })
   .then(function(vehicleIds) {
-    let arrInfo = [];
-      for(let i=0; i<vehicleIds.length; i++){
-        let vehicle = new smartcar.Vehicle(vehicleIds[i], access.accessToken);        
-        arrInfo.push(vehicle.info());
-        Promise.all(arrInfo);
-        arrInfo.push(vehicle.location());
-      }
+    // instantiate the index'th vehicle in the vehicle id list
     
-    return Promise.all(arrInfo);
+    const vehicle = new smartcar.Vehicle(vehicleIds[index], access.accessToken);       
+    return vehicle.location();
   })
   .then(function(response) {
-    for(let i=0; i<response.length; i++) {
-      if(response[i].id == id) {
-        index=i;
-      }
-    } 
     console.log(response);
     res.json(response);
   });
@@ -196,7 +187,6 @@ app.get('/'+id+'/unlock', function(req, res) {
 //       });
 //     }) 
 // });
-
 
 
 
