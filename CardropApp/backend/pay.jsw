@@ -1,0 +1,22 @@
+import wixData from 'wix-data';
+import wixPay from 'wix-pay-backend';
+
+export async function createMyPayment(carId, numDays, firstDayStr, lastDayStr, userId) {
+
+  return wixData.get("products", carId)
+    .then( (product) => {
+      return wixPay.createPayment( {
+        items: [{
+          name: product.title + " [" + firstDayStr + " to " + lastDayStr + "] (Quantity = # of days)",
+          price: product.costPerDay,
+          quantity: numDays,
+          firstDayStr: firstDayStr,
+          lastDayStr: lastDayStr,
+          carId: carId,
+          userId: userId
+        }],
+        amount: product.costPerDay * numDays
+      } );
+    } );
+    
+}

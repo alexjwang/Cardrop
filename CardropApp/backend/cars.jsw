@@ -1,0 +1,103 @@
+'use strict';
+
+import smartcar from 'smartcar';
+
+const accessToken= '0cc0649b-0a86-4095-a354-1c29a0f54aab';
+const refreshToken= 'cb6c8151-a3f1-4bc2-b20a-ddcd02beb735';
+
+const client = new smartcar.AuthClient({
+  clientId: 'd2071504-0338-40ad-88c5-e49a1d011b66',
+  clientSecret: 'd5b047ca-82f6-430a-8464-f160d5e43d26',
+  redirectUri: 'http://localhost:8000',
+  scope: ['read_vehicle_info','read_location','read_odometer','control_security', 'control_security:unlock', 'control_security:lock'], 
+  //testMode: true,
+});
+
+function refresh() {
+  let access = client.exchangeRefreshToken(refreshToken);
+  accessToken = access.accessToken;
+  refreshToken = access.refreshToken;
+}
+
+export function timeRefresh() {
+  setInterval(refresh, 1000*60*59*2);
+  return accessToken + " " + refreshToken;
+}
+
+//let index=-1;
+
+// export async function getInfos() {
+//   return smartcar.getVehicleIds(accessToken)
+//     .then(function(data) {
+//       // the list of vehicle ids
+//       return data.vehicles;
+//     })
+//     .then(function(vehicleIds) {
+//       // instantiate the first vehicle in the vehicle id list
+//       let arrInfo = [];
+//       for(let i=0; i<vehicleIds.length; i++){
+//         let vehicle = new smartcar.Vehicle(vehicleIds[i], accessToken);        
+//         arrInfo.push(vehicle.info());
+//       }
+//        return Promise.all(arrInfo);
+//       })
+//       .then(function(infos) {
+//         for(let i=0; i<infos.length; i++) {
+//           if(infos[i].id === id) {
+//             index=i;
+//           }
+//         } 
+//         return infos;
+//       });
+// }
+
+export async function getLocation(id) {
+    return smartcar.getVehicleIds(accessToken)
+    .then(function(data) {
+      // the list of vehicle ids
+      return data.vehicles;
+    })
+    .then(function(vehicleIds) {
+      // instantiate the index'th vehicle in the vehicle id list
+      
+      const vehicle = new smartcar.Vehicle(id, accessToken);       
+      return vehicle.location();
+    })
+    .then(function(response) {
+      return response;
+    });
+  }
+  
+export async function lock(id) {
+  return smartcar.getVehicleIds(accessToken)
+  .then(function(data) {
+    // the list of vehicle ids
+    return data.vehicles;
+  })
+  .then(function(vehicleIds) {
+    // instantiate the index'th vehicle in the vehicle id list
+    
+    const vehicle = new smartcar.Vehicle(id, accessToken);       
+    return vehicle.lock();
+  })
+  .then(function(response) {
+    console.log(response);
+  })
+}
+
+export async function unlock(id) {
+  return smartcar.getVehicleIds(accessToken)
+  .then(function(data) {
+    // the list of vehicle ids
+    return data.vehicles;
+  })
+  .then(function(vehicleIds) {
+    // instantiate the index'th vehicle in the vehicle id list
+    
+    const vehicle = new smartcar.Vehicle(id, accessToken);       
+    return vehicle.unlock();
+  })
+  .then(function(response) {
+    console.log(response);
+  })
+} 
