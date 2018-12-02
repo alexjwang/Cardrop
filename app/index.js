@@ -41,7 +41,8 @@ app.get('/exchange', function(req, res) {
       // in a production app you'll want to store this in some kind of persistent storage
       access = _access;
 
-      res.sendStatus(200);
+      //res.sendStatus(200);
+      res.redirect('/vehicle');
     });
 });
 
