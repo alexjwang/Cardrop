@@ -1,3 +1,5 @@
+Cardrop was the result of a team effort by Michael Jan (me), Alex Wang, Jesse Zhong, and Justin Lee. We built this product at YHack 2018.
+
 The folder “CardropApp” contains the actual code for the website/application. The website is located at: https://cardrop.wixsite.com/cardrop.
 
 The other files were what we used to locally test the functions for the smartcar API as well as to how we got access keys/renew access codes. Although they are not used in the final app, we left the files here in the repo in the event that we wish to test something separate from the website/application. 
