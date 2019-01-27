@@ -1,4 +1,4 @@
-Cardrop was the result of a team effort by Michael Jan (me), Alex Wang, Jesse Zhong, and Justin Lee. We built this product at YHack 2018.
+Cardrop was the result of a team effort by Michael Jan, Alex Wang, Jesse Zhong, and Justin Lee. We built this product at YHack 2018.
 
 The folder “CardropApp” contains the actual code for the website/application. The website is located at: https://cardrop.wixsite.com/cardrop.
 
